@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Skunk" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+    <title>Skunk</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🦨 Skunk</div>
+      <h1 id="view-title">This week</h1>
+    </header>
+
+    <main>
+      <!-- WEEK -->
+      <section id="view-week" class="view active">
+        <div class="week-nav">
+          <button class="icon-btn" id="prev-week" aria-label="Previous week">‹</button>
+          <span id="week-label"></span>
+          <button class="icon-btn" id="next-week" aria-label="Next week">›</button>
+        </div>
+
+        <div class="card scoreboard">
+          <div class="score-side good">
+            <span class="score-label">Hobbies</span>
+            <span class="score-value" id="stat-good">0m</span>
+            <span class="score-money" id="money-good"></span>
+          </div>
+          <span class="score-vs">vs</span>
+          <div class="score-side skunk">
+            <span class="score-label">🦨 Skunks</span>
+            <span class="score-value" id="stat-skunk">0m</span>
+            <span class="score-money" id="money-skunk"></span>
+          </div>
+          <div class="balance-bar"><span id="balance-good"></span><span id="balance-skunk"></span></div>
+          <p class="score-verdict" id="score-verdict"></p>
+        </div>
+
+        <div class="card daily">
+          <div class="daily-chart" id="daily-chart"></div>
+          <div class="daily-days" id="daily-days"></div>
+          <div class="day-detail" id="day-detail"></div>
+        </div>
+
+        <div class="card nudge" id="nudge" hidden></div>
+
+        <h2 class="section-title">Time by hobby</h2>
+        <ul class="breakdown" id="breakdown"></ul>
+
+        <h2 class="section-title skunk-title" id="skunk-title">🦨 Skunks</h2>
+        <ul class="breakdown" id="skunk-breakdown"></ul>
+
+        <h2 class="section-title">Last 8 weeks</h2>
+        <div class="card trend" id="trend"></div>
+
+        <h2 class="section-title" id="sessions-title">Sessions</h2>
+        <ul class="list" id="week-list"></ul>
+      </section>
+
+      <!-- HOBBIES -->
+      <section id="view-hobbies" class="view">
+        <h2 class="section-title">Hobbies</h2>
+        <ul class="list" id="hobby-list"></ul>
+        <p class="empty" id="hobby-empty">No hobbies yet.</p>
+
+        <h2 class="section-title skunk-title">🦨 Skunks</h2>
+        <ul class="list" id="skunk-list"></ul>
+        <p class="empty" id="skunk-empty">No skunks yet. Add things that eat your time, like scrolling or binge-watching.</p>
+
+        <form class="card form" id="hobby-form">
+          <h2 class="section-title" id="hobby-form-title">Add a hobby</h2>
+          <div class="segmented" role="radiogroup" aria-label="Type">
+            <label><input type="radio" name="kind" value="good" checked /><span>Hobby</span></label>
+            <label><input type="radio" name="kind" value="skunk" /><span>🦨 Skunk</span></label>
+          </div>
+          <div class="field-row">
+            <label class="field emoji-field">
+              <span>Icon</span>
+              <input name="emoji" maxlength="4" placeholder="🎸" />
+            </label>
+            <label class="field grow">
+              <span>Name</span>
+              <input name="name" required placeholder="Guitar" />
+            </label>
+          </div>
+          <label class="field">
+            <span id="goal-label">Weekly goal in hours (optional)</span>
+            <input name="goal" type="number" inputmode="decimal" min="0" step="0.25" placeholder="5" />
+          </label>
+          <div class="field">
+            <span>Color</span>
+            <div class="swatches" id="swatches"></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn" type="button" id="hobby-cancel" hidden>Cancel</button>
+            <button class="btn primary" type="submit" id="hobby-submit">Add hobby</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- LOG SESSION -->
+      <section id="view-log" class="view">
+        <form class="card form" id="session-form">
+          <label class="field">
+            <span>Hobby</span>
+            <select name="hobbyId" required></select>
+          </label>
+
+          <div class="field">
+            <span>How long?</span>
+            <div class="field-row">
+              <label class="field grow">
+                <input name="hours" type="number" inputmode="numeric" min="0" step="1" placeholder="0" aria-label="Hours" />
+                <small>hours</small>
+              </label>
+              <label class="field grow">
+                <input name="minutes" type="number" inputmode="numeric" min="0" max="59" step="1" placeholder="0" aria-label="Minutes" />
+                <small>minutes</small>
+              </label>
+            </div>
+            <div class="chips" id="quick-time">
+              <button type="button" class="chip" data-min="15">15m</button>
+              <button type="button" class="chip" data-min="30">30m</button>
+              <button type="button" class="chip" data-min="60">1h</button>
+              <button type="button" class="chip" data-min="90">1½h</button>
+              <button type="button" class="chip" data-min="120">2h</button>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Date</span>
+            <input name="date" type="date" required />
+          </label>
+          <label class="field">
+            <span>Cost (optional)</span>
+            <input name="cost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+          </label>
+          <label class="field">
+            <span>Note</span>
+            <input name="note" placeholder="Practiced scales" />
+          </label>
+          <button class="btn primary" type="submit">Save session</button>
+          <p class="hint" id="no-hobby-hint" hidden>Add a hobby first on the Hobbies tab.</p>
+        </form>
+      </section>
+
+      <!-- HISTORY -->
+      <section id="view-history" class="view">
+        <label class="field">
+          <span>Filter</span>
+          <select id="history-filter"></select>
+        </label>
+        <p class="hint totals" id="history-totals"></p>
+        <ul class="list" id="history-list"></ul>
+
+        <div class="card data-tools">
+          <h2 class="section-title">Your data</h2>
+          <p class="hint" id="sync-status"></p>
+          <div class="btn-row">
+            <button class="btn" id="export-btn" type="button">Export</button>
+            <label class="btn">
+              Import
+              <input type="file" id="import-input" accept="application/json" hidden />
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabbar">
+      <button data-view="week" class="active">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16" /><rect x="4" y="12" width="4" height="8" rx="1" /><rect x="10" y="5" width="4" height="15" rx="1" /><rect x="16" y="9" width="4" height="11" rx="1" /></svg>
+        Week
+      </button>
+      <button data-view="hobbies">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" /></svg>
+        Hobbies
+      </button>
+      <button data-view="log">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.98 12.54a9 9 0 1 0-8.47 8.45" /><path d="M12 7v5l3 3" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+        Log
+      </button>
+      <button data-view="history">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4l2 2" /><path d="M3.05 11a9 9 0 1 1 .5 4" /><path d="M3 20v-5h5" /></svg>
+        History
+      </button>
+    </nav>
+
+    <div class="confirm" id="confirm" hidden>
+      <div class="confirm-sheet" role="alertdialog" aria-labelledby="confirm-text">
+        <p id="confirm-text"></p>
+        <div class="btn-row">
+          <button class="btn" type="button" id="confirm-cancel">Cancel</button>
+          <button class="btn danger" type="button" id="confirm-ok">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
