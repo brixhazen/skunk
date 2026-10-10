@@ -9,8 +9,11 @@ let weekOffset = 0; // 0 = this week, -1 = last week, ...
 let editingHobbyId = null;
 let selectedDay = null; // ISO date picked in the daily chart
 
-// Mid-tone colors that read well on both light and dark backgrounds
-const COLORS = ["#2f9e7d", "#3b7dd8", "#d9822b", "#c2477a", "#8a5cd1", "#c9a227", "#d4554a", "#3aa6b9"];
+// 16 colors that read well on black, in rainbow order (new hobbies get the first free one)
+const COLORS = [
+  "#2f9e7d", "#3aa6b9", "#64c6e8", "#3b7dd8", "#5b6ee0", "#8a5cd1", "#d965c6", "#c2477a",
+  "#f29bb0", "#d4554a", "#d9822b", "#b5793f", "#c9a227", "#e6cf4f", "#78c25a", "#8fa3b8",
+];
 
 function load() {
   try {
@@ -490,13 +493,18 @@ function renderHobbies() {
   $("#skunk-empty").hidden = skunks().length > 0;
 }
 
+// Colors other hobbies already use can't be picked (unless every color is taken)
 function renderSwatches(selected) {
-  $("#swatches").innerHTML = COLORS.map(
-    (c) => `
+  const owners = new Map(state.hobbies.filter((h) => h.id !== editingHobbyId).map((h) => [h.color, h.name]));
+  const allTaken = COLORS.every((c) => owners.has(c));
+  $("#swatches").innerHTML = COLORS.map((c) => {
+    const owner = allTaken ? null : owners.get(c);
+    const label = owner ? `Color used by ${escapeHtml(owner)}` : "Color";
+    return `
       <label class="swatch" style="--c:${c}">
-        <input type="radio" name="color" value="${c}" ${c === selected ? "checked" : ""} aria-label="Color ${c}" />
-      </label>`
-  ).join("");
+        <input type="radio" name="color" value="${c}" ${c === selected ? "checked" : ""} ${owner ? "disabled" : ""} aria-label="${label}" />
+      </label>`;
+  }).join("");
 }
 
 // Labels change depending on whether the form is for a hobby or a skunk
@@ -671,6 +679,7 @@ document.addEventListener("click", async (ev) => {
     state.hobbies = state.hobbies.filter((x) => x.id !== hobbyId);
     state.sessions = state.sessions.filter((s) => s.hobbyId !== hobbyId);
     if (editingHobbyId === hobbyId) resetHobbyForm();
+    else renderSwatches($("#hobby-form").color.value || nextColor()); // its color is free again
   } else {
     return;
   }

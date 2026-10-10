@@ -341,11 +341,13 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 
 /* ---------- color swatches ---------- */
 
-.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.swatches { display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
 
 .swatch {
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  max-width: 36px;
+  aspect-ratio: 1;
+  justify-self: center;
   border-radius: 50%;
   background: var(--c);
   cursor: pointer;
@@ -355,6 +357,16 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .swatch input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; min-height: 0; }
 .swatch:has(input:checked) { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--c); }
 .swatch:has(input:focus-visible) { outline: 2px solid var(--text); outline-offset: 4px; }
+
+/* Taken by another hobby: faded and crossed out */
+.swatch:has(input:disabled) {
+  opacity: 0.25;
+  cursor: not-allowed;
+  background: linear-gradient(to top right, transparent calc(50% - 1.5px), var(--bg) calc(50% - 1.5px) calc(50% + 1.5px), transparent calc(50% + 1.5px)), var(--c);
+}
+.swatch input:disabled { cursor: not-allowed; }
+
+#hobby-form { margin-top: 4px; }
 
 /* ---------- skunks ---------- */
 
@@ -460,7 +472,6 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .segmented input:checked + span { background: var(--raised); color: var(--text); }
 .segmented input:focus-visible + span { outline: 2px solid var(--accent); }
 
-#view-hobbies > .section-title:first-child { margin-top: 8px; }
 
 /* ---------- daily chart (Screen Time style) ---------- */
 
