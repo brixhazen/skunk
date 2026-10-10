@@ -123,7 +123,7 @@ function hobbyOptions() {
   const bad = skunks();
   return (
     (good.length ? `<optgroup label="Hobbies">${opts(good)}</optgroup>` : "") +
-    (bad.length ? `<optgroup label="🦨 Skunks">${opts(bad)}</optgroup>` : "")
+    (bad.length ? `<optgroup label="Skunks">${opts(bad)}</optgroup>` : "")
   );
 }
 
@@ -321,7 +321,7 @@ function breakdownRows(hobbies, week, mode) {
       const pct = goalMin ? Math.min(100, (min / goalMin) * 100) : (min / max) * 100;
       const target = goalMin ? `<span class="budget"> / ${duration(goalMin)}</span>` : "";
       const over = mode === "limit" && goalMin && min > goalMin;
-      const badge = mode === "goal" ? (goalMin && min >= goalMin ? " ✅" : "") : over ? ' <span class="over">over limit</span>' : "";
+      const badge = mode === "goal" ? (goalMin && min >= goalMin ? ' <span class="done">✓</span>' : "") : over ? ' <span class="over">over limit</span>' : "";
       const costText = mode === "limit" && cost ? `<span class="budget"> · ${money(cost)}</span>` : "";
       return `
         <li>

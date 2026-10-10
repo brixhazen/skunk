@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#000000" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Skunk" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="icons/icon-192.png" />
@@ -17,7 +16,7 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">🦨 Skunk</div>
+      <div class="brand"><span class="brand-stripe"></span>SKUNK</div>
       <h1 id="view-title">This week</h1>
     </header>
 
@@ -38,7 +37,7 @@
           </div>
           <span class="score-vs">vs</span>
           <div class="score-side skunk">
-            <span class="score-label">🦨 Skunks</span>
+            <span class="score-label">Skunks</span>
             <span class="score-value" id="stat-skunk">0m</span>
             <span class="score-money" id="money-skunk"></span>
           </div>
@@ -57,7 +56,7 @@
         <h2 class="section-title">Time by hobby</h2>
         <ul class="breakdown" id="breakdown"></ul>
 
-        <h2 class="section-title skunk-title" id="skunk-title">🦨 Skunks</h2>
+        <h2 class="section-title skunk-title" id="skunk-title">Skunks</h2>
         <ul class="breakdown" id="skunk-breakdown"></ul>
 
         <h2 class="section-title">Last 8 weeks</h2>
@@ -73,7 +72,7 @@
         <ul class="list" id="hobby-list"></ul>
         <p class="empty" id="hobby-empty">No hobbies yet.</p>
 
-        <h2 class="section-title skunk-title">🦨 Skunks</h2>
+        <h2 class="section-title skunk-title">Skunks</h2>
         <ul class="list" id="skunk-list"></ul>
         <p class="empty" id="skunk-empty">No skunks yet. Add things that eat your time, like scrolling or binge-watching.</p>
 
@@ -81,7 +80,7 @@
           <h2 class="section-title" id="hobby-form-title">Add a hobby</h2>
           <div class="segmented" role="radiogroup" aria-label="Type">
             <label><input type="radio" name="kind" value="good" checked /><span>Hobby</span></label>
-            <label><input type="radio" name="kind" value="skunk" /><span>🦨 Skunk</span></label>
+            <label><input type="radio" name="kind" value="skunk" /><span>Skunk</span></label>
           </div>
           <div class="field-row">
             <label class="field emoji-field">

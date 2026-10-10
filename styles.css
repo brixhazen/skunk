@@ -1,43 +1,19 @@
 :root {
-  --bg: #f6f4ef;
-  --surface: #ffffff;
-  --text: #1d1d1f;
-  --muted: #6b6b73;
-  --border: #e4e1d9;
-  --accent: #2f6f5e;
-  --accent-text: #ffffff;
-  --danger: #b4443a;
-  --bar-track: #ece9e1;
-  --radius: 14px;
+  /* Skunk: black, white and grays. Hobby colors only appear in charts and icons. */
+  --bg: #000000;
+  --surface: #0e0e10;
+  --raised: #18181b;
+  --text: #f5f5f2;
+  --muted: #8c8c8f;
+  --border: #242427;
+  --accent: #f5f5f2;
+  --accent-text: #000000;
+  --skunk: #a3a3a6;
+  --skunk-stripes: repeating-linear-gradient(-45deg, #8a8a8d 0 4px, #2a2a2d 4px 8px);
+  --danger: #e5776b;
+  --bar-track: #1c1c1f;
+  --radius: 16px;
   --tabbar-h: 64px;
-}
-
-/* Follows the phone's dark mode, unless claude.ai's own theme setting picks one */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #16161a;
-    --surface: #212127;
-    --text: #f1f0ec;
-    --muted: #9a9aa3;
-    --border: #2f2f37;
-    --accent: #5fb89c;
-    --accent-text: #0f1a16;
-    --danger: #e0786d;
-    --bar-track: #2c2c33;
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme="dark"] {
-  --bg: #16161a;
-  --surface: #212127;
-  --text: #f1f0ec;
-  --muted: #9a9aa3;
-  --border: #2f2f37;
-  --accent: #5fb89c;
-  --accent-text: #0f1a16;
-  --danger: #e0786d;
-  --bar-track: #2c2c33;
   color-scheme: dark;
 }
 
@@ -70,7 +46,18 @@ button, select, input, label { touch-action: manipulation; }
   padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 10px;
 }
 
-.brand { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--accent); margin-bottom: 2px; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.brand-stripe { width: 22px; height: 6px; border-radius: 3px; background: var(--text); }
 
 .topbar h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
 
@@ -203,7 +190,7 @@ input, select {
   font: inherit;
   font-size: 16px; /* prevents iOS zoom on focus */
   color: var(--text);
-  background: var(--bg);
+  background: var(--raised);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 12px;
@@ -223,7 +210,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   padding: 0 18px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--raised);
   color: var(--text);
   cursor: pointer;
 }
@@ -244,7 +231,9 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   z-index: 10;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: var(--surface);
+  background: rgb(0 0 0 / 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-top: 1px solid var(--border);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -316,7 +305,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--raised);
   color: var(--text);
   cursor: pointer;
 }
@@ -369,8 +358,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 
 /* ---------- skunks ---------- */
 
-.stat.skunk .stat-value { color: var(--danger); }
-.skunk-title { color: var(--danger); }
+.skunk-title { color: var(--skunk); }
 .breakdown .over { color: var(--danger); font-size: 13px; font-weight: 600; }
 
 /* ---------- scoreboard ---------- */
@@ -387,8 +375,8 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .score-side { display: grid; gap: 2px; }
 .score-label { font-size: 13px; color: var(--muted); font-weight: 600; }
 .score-value { font-size: clamp(24px, 8.5vw, 34px); font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.score-side.good .score-value { color: var(--accent); }
-.score-side.skunk .score-value { color: var(--danger); }
+.score-side.good .score-value { color: var(--text); }
+.score-side.skunk .score-value { color: var(--skunk); }
 .score-money { font-size: 12px; color: var(--muted); min-height: 16px; }
 .score-vs { font-size: 13px; color: var(--muted); font-weight: 600; }
 
@@ -396,8 +384,8 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .scoreboard.empty-score .balance-bar > span { opacity: 0.25; }
 
 .score-verdict { grid-column: 1 / -1; margin: 0; font-weight: 600; font-size: 15px; color: var(--muted); }
-.score-verdict.good { color: var(--accent); }
-.score-verdict.skunk { color: var(--danger); }
+.score-verdict.good { color: var(--text); }
+.score-verdict.skunk { color: var(--skunk); }
 
 .balance-bar {
   display: flex;
@@ -407,14 +395,24 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   background: var(--bar-track);
 }
 
-#balance-good { background: var(--accent); }
-#balance-skunk { background: var(--danger); }
+#balance-good { background: var(--text); }
+#balance-skunk { background: var(--skunk-stripes); }
 
 .nudge {
-  border-color: color-mix(in srgb, var(--danger) 45%, var(--border));
-  background: color-mix(in srgb, var(--danger) 9%, var(--surface));
+  position: relative;
+  overflow: hidden;
+  padding-top: 20px;
   display: grid;
   gap: 6px;
+}
+
+/* Skunk stripe across the top of the reality-check card */
+.nudge::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--skunk-stripes);
 }
 
 .nudge p { margin: 0; font-size: 15px; }
@@ -424,7 +422,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--danger);
+  color: var(--skunk);
   border: 1px solid currentColor;
   border-radius: 999px;
   padding: 1px 6px;
@@ -440,7 +438,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .segmented {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 4px;
@@ -459,8 +457,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   color: var(--muted);
 }
 
-.segmented input:checked + span { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgb(0 0 0 / 0.15); }
-.segmented input[value="skunk"]:checked + span { color: var(--danger); }
+.segmented input:checked + span { background: var(--raised); color: var(--text); }
 .segmented input:focus-visible + span { outline: 2px solid var(--accent); }
 
 #view-hobbies > .section-title:first-child { margin-top: 8px; }
@@ -539,7 +536,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   background: repeating-linear-gradient(-45deg, var(--c) 0 4px, color-mix(in srgb, var(--c) 35%, transparent) 4px 8px);
 }
 
-.daily-cols:has(.selected) .daily-col:not(.selected) { opacity: 0.45; }
+.daily-cols:has(.selected) .daily-col:not(.selected) { opacity: 0.6; }
 .daily-col.future { opacity: 0.3; }
 
 .daily-days {
@@ -572,7 +569,7 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
   position: fixed;
   inset: 0;
   z-index: 30;
-  background: rgb(0 0 0 / 0.45);
+  background: rgb(0 0 0 / 0.7);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -582,7 +579,8 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 .confirm-sheet {
   width: 100%;
   max-width: 420px;
-  background: var(--surface);
+  background: var(--raised);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 16px 16px;
   display: grid;
@@ -591,4 +589,6 @@ input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1
 
 .confirm-sheet p { margin: 0; font-size: 17px; font-weight: 600; text-align: center; }
 
-.btn.danger { background: var(--danger); border-color: var(--danger); color: var(--accent-text); }
+.btn.danger { background: var(--danger); border-color: var(--danger); color: #000; }
+
+.done { color: var(--text); font-size: 13px; margin-left: 4px; }
