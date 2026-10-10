@@ -13,8 +13,10 @@ self.addEventListener("activate", (ev) => ev.waitUntil(self.clients.claim()));
 
 self.addEventListener("fetch", (ev) => {
   if (ev.request.method !== "GET" || new URL(ev.request.url).origin !== location.origin) return;
+  // "no-cache" always asks the server whether a file changed, so new
+  // versions show up on the next open instead of up to 10 minutes later
   ev.respondWith(
-    fetch(ev.request)
+    fetch(ev.request, { cache: "no-cache" })
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(ev.request, copy));
